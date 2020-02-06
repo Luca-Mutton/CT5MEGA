@@ -1,0 +1,165 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class MyVector2
+{
+    public float x;
+    public float y;
+
+    public MyVector2 (float x, float y)
+    {
+        this.x = x;
+        this.y = y;
+    }
+
+    public static MyVector2 VectorAdd(MyVector2 A, MyVector2 B)
+    {
+        MyVector2 rv = new MyVector2(0, 0);
+
+        rv.x = A.x + B.x;
+        rv.y = A.y + B.y;
+
+        return rv;
+    }
+
+    public static MyVector2 operator +(MyVector2 lhs, MyVector2 rhs)
+    {
+        return VectorAdd(lhs, rhs);
+    }
+    public static MyVector2 VectorSubtract(MyVector2 A, MyVector2 B)
+    {
+        MyVector2 rv = new MyVector2(0, 0);
+
+        rv.x = A.x - B.x;
+        rv.y = A.y - B.y;
+
+        return rv;
+    }
+    public static MyVector2 operator -(MyVector2 lhs, MyVector2 rhs)
+    {
+        return VectorSubtract(lhs, rhs);
+    }
+    public static float VectorLength(MyVector2 A)
+    {
+        float rv;
+
+        rv = Mathf.Sqrt(A.x * A.x);
+
+        return rv;
+    }
+
+    public static float LenghtSq(Vector3 A, Vector3 B)
+    {
+        float rv;
+        rv = A.x * B.x + A.y * B.y;
+        return 0;
+    }
+
+    public static float Length(Vector3 A)
+    {
+        float rv;
+
+        rv = Mathf.Sqrt(A.x * A.x);
+
+        return rv;
+    }
+
+    public static Vector3 MultiplyVector(Vector3 Vec1, float scalar)
+    {
+        Vector3 rv = new Vector3(0, 0);
+
+        //SCALE THE VECTOR
+        rv.x = Vec1.x * scalar;
+        rv.y = Vec1.x * scalar;
+
+        return Vector3.zero;
+    }
+
+    public static Vector3 DivideVector(Vector3 Vec1, float divisor)
+    {
+        Vector3 rv = new Vector3(0, 0);
+
+        //DIVIDE THER VECTOR
+        rv.x = Vec1.x * divisor;
+        rv.y = Vec1.x * divisor;
+
+        return Vector3.zero;
+    }
+
+    public static Vector3 VectorNormalized(Vector3 A)
+    {
+        Vector3 rv = new Vector3(0, 0);
+        rv.x = A.x;
+        rv.y = A.y;
+
+        rv = rv / Length(rv);
+
+        return rv;
+    }
+
+    public static float DotProduct(Vector3 Vec1, Vector3 Vec2, bool ShouldNormalize = true)
+    {
+        float rv;
+
+        Vector3 A = new Vector3(Vec1.x, Vec1.y);
+        Vector3 B = new Vector3(Vec1.x, Vec2.y);
+
+        if (ShouldNormalize)
+        {
+            A = VectorNormalized(A);
+            B = VectorNormalized(B);
+        }
+
+        rv = A.x * B.x + A.y * B.y;
+
+        return rv;
+    }
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        //vector co-ordinates
+        MyVector2 P = new MyVector2(2, 5);
+        MyVector2 G = new MyVector2(5, 3);
+        MyVector2 V = new MyVector2(3, 0);
+
+        #region
+        //add vectors
+        MyVector2 newP = MyVector2.VectorAdd(P, V);
+        newP = P + V;
+        Debug.Log("newP is: (" + newP.x + ", "+ newP.y + ")");
+
+        //subtracting vectors
+        MyVector2 newV = MyVector2.VectorSubtract(P, G);
+        newV = P - G;
+        Debug.Log("newV is: (" + V.x + ", " + newP.y + ")");
+
+        //finding a length
+        float V_Length = VectorLength(newV);
+        Debug.Log("V length is: " + V_Length);
+        #endregion
+
+        //the speed at which this object moves
+        float PursuerSpeed = 2.0f;
+
+        Vector3 T = new Vector3(-3, 2);
+        Vector3 normV = VectorNormalized(T);
+
+        Vector3 PursuerVelocity = normV * PursuerSpeed;
+
+        //dot product
+        Vector3 R = new Vector3(5, 0);
+        Vector3 dotR = new Vector3(-5, 0);
+
+        float theDot = MyVector2.DotProduct(R, dotR);
+        Debug.Log(theDot);
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
+}
