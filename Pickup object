@@ -1,0 +1,95 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Pickupobject : MonoBehaviour
+{
+    GameObject MainCamera;
+    bool carrying;// boolean to check if the object is picked up
+    GameObject pickupobject; //creates game objects
+    public Transform Destination;
+    public float distance;
+    public float smooth;
+
+    void OnMouseDown()
+    {
+        GetComponent.Collider<BoxCollider>().enabled = false;
+        GetComponent<RigidBody>().useGravity = false;
+        this.transform.position = Destination.position;
+        this.transform.parent = GameObject.Find("Destinaion").transform;
+    }
+
+    void OnMouseUp()
+    {
+        this.transform.parent = null;
+        GetComponent<RigidBody>().useGravity = false;
+        GetComponent.Collider<BoxCollider>().enabled = true;
+    }
+
+    void rotateObject()//object rotation event
+    {
+        if (Input.GetKey (Keycode.A)) //key press to rotate object
+        pickupobject.transform.Rotate(5, 10, 10);
+    }
+
+    void pickup(){
+        if (input.OnMouseDown(Keycode.LeftMouse))
+        {
+            int x = Screen.width / 2;
+            int y = Screen.height / 2;
+
+            Ray ray = MainCamera.camera.ScreenPointToRay(new Vector3(x, y));
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit))
+            {
+                Pickupable p = hit.collider.GetComponent<Pickupable>();
+                if (p!= null)
+                {
+                    carrying = true;
+                    pickupobject = p.gameObject;
+                }
+            }
+        }
+    }
+
+    void carry()
+    {
+        o.rigidbody.isKinematic = true;
+        o.transform.position = Vector3.Lerp(object.transform, MainCamera.tranform.position + MainCamera.transform.forward * distance, Time.deltaTime * smooth);
+    }
+
+    void checkedDrop()
+    {
+        if (Input.GetKeyDown)
+        {
+            drop();
+        }
+    }
+
+    void drop()
+    {
+        carrying = false;
+        pickupobject = null;
+        pickupobject..rigidbody.isKinematic = true;
+
+    }
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        mainCamera = GameObject.FindwithTag("MainCamera");
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (carrying)
+        {
+            carry();
+            checkedDrop();
+        } else
+        {
+            pickup();
+        }
+    }
+}
