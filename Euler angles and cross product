@@ -28,7 +28,7 @@
             return C;
     }
 
-    public static Vector3 EulerAnglesToDirection(Vector3 EulerAngles)
+    public static Vector3 EulerAnglesToDirection(Vector3 EulerAngles) //convert the degrees into Radians
     {
         Vector3 rv = new Vector3();
 
@@ -66,6 +66,11 @@
         if (Input.GetKey(KeyCode.D))
         {
             transform.position += rightDirection * Time.deltaTime;
+        }
+        
+        if (Input.GetKey(KeyCode.A))
+        {
+            transform.Rotate(0.0f, -1.0f, 0.0f);
         }
     }
 }
