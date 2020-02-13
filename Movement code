@@ -2,6 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public Transform target;
+
+    void CameraFocus ()
+    {
+        Vector3 pointOnside = target.position + new Vector3(target.localScale.x * 0.5f, 0.0f, target.localScale.z * 0.5f);
+
+        float aspect = (float)Screen.width / (float)Screen.height;
+        float maxDistance = (target.localScale.y * 0.5f) / Mathf.Tan(Mathf.Deg2Rad * (Camera.main.fieldOfView/aspect));
+        Camera.main.transform.position = Vector3.MoveTowards(pointOnside, target.position, -maxDistance);
+        Camera.main.transform.LookAt(target.position);
+    }
+    
 public class Movement : MonoBehaviour
 {
     // Start is called before the first frame update
