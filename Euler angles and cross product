@@ -37,3 +37,35 @@
         rv.z = Mathf.Cos(EulerAngles.x) * Mathf.Sin(EulerAngles.y);
         return rv;
     }
+
+{
+    // Start is called before the first frame update
+    void Start()
+    {
+        
+    }
+
+    // Update is called once per frame
+    Vector3 eulerRotation = new Vector3();
+    Vector3 forwardDirection = new Vector3();
+    Vector3 rightDirection = new Vector3();
+
+    void Update()
+    {
+        eulerRotation = transform.rotation.eulerAngles;
+
+        forwardDirection = MyVector2.EulerAnglesToDirection(eulerRotation);
+
+        rightDirection = MyVector2.VectorCrossProduct(Vector3.up, forwardDirection);
+
+        if (Input.GetKey(KeyCode.W))
+        {
+            transform.position += forwardDirection * Time.deltaTime;
+        }
+
+        if (Input.GetKey(KeyCode.D))
+        {
+            transform.position += rightDirection * Time.deltaTime;
+        }
+    }
+}
