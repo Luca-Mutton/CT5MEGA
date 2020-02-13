@@ -15,19 +15,19 @@ public class Movement : MonoBehaviour
     {
      if (Input.GetKey(KeyCode.UpArrow))
         {
-            transform.position += new Vector3(0.0f, -1.0f, 0.0f);
+            transform.position += new Vector3(0.0f, 1.0f, 0.0f);
         }
      if (Input.GetKey(KeyCode.DownArrow))
         {
-            transform.position += new Vector3(0.0f, 1.0f, 0.0f);
+            transform.position += new Vector3(0.0f, -1.0f, 0.0f);
         }
         if (Input.GetKey(KeyCode.LeftArrow))
         {
-            transform.position += new Vector3(1.0f, 0.0f, 0.0f);
+            transform.position += new Vector3(-1.0f, 0.0f, 0.0f);
         }
      if (Input.GetKey(KeyCode.RightArrow))
         {
-            transform.position += new Vector3(-1.0f, 0.0f, 0.0f);
+            transform.position += new Vector3(1.0f, 0.0f, 0.0f);
         }
     }
      
