@@ -1,0 +1,141 @@
+public class Matrix4by4
+    {
+        public float[,] values;
+
+        public Matrix4by4(Vector4 column1, Vector4 column2, Vector4 column3, Vector4 column4)
+        {
+            values = new float[4, 4];
+
+            //column1
+            values[0, 0] = column1.x;
+            values[1, 0] = column1.y;
+            values[2, 0] = column1.z;
+            values[3, 0] = column1.w;
+
+            //column2
+            values[0, 1] = column2.x;
+            values[1, 1] = column2.y;
+            values[2, 1] = column2.z;
+            values[3, 1] = column2.w;
+
+            //column3
+            values[0, 2] = column3.x;
+            values[1, 2] = column3.y;
+            values[2, 2] = column3.z;
+            values[3, 2] = column3.w;
+
+            //column4
+            values[0, 3] = column4.x;
+            values[1, 3] = column4.y;
+            values[2, 3] = column4.z;
+            values[3, 3] = column4.w;
+        }
+
+        public Matrix4by4(Vector3 column1, Vector3 column2, Vector3 column3, Vector3 column4)
+        {
+            values = new float[4, 4];
+
+            //column1
+            values[0, 0] = column1.x;
+            values[1, 0] = column1.y;
+            values[2, 0] = column1.z;
+            values[3, 0] = 0;
+
+            //column2
+            values[0, 1] = column2.x;
+            values[1, 1] = column2.y;
+            values[2, 1] = column2.z;
+            values[3, 1] = 0;
+
+            //column3
+            values[0, 2] = column3.x;
+            values[1, 2] = column3.y;
+            values[2, 2] = column3.z;
+            values[3, 2] = 0;
+
+            //column4
+            values[0, 3] = column4.x;
+            values[1, 3] = column4.y;
+            values[2, 3] = column4.z;
+            values[3, 3] = 1;
+        }
+        public static Vector4 operator *(Matrix4by4 lhs, Vector4 vector)
+        {
+            return new Vector4();
+        }
+        
+        
+        
+        
+        
+        //Scaling matrix script
+        public class ScalingMatrix : MonoBehaviour
+{
+    Vector3[] ModelSpaceVertices;
+    MeshFilter MF;
+    float yawAngle;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        MF = GetComponent<MeshFilter>();
+        ModelSpaceVertices = MF.mesh.vertices;
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+        //add to our Yaw Angle
+        yawAngle += Time.deltaTime;
+        
+        //Define a new array with the correct size
+        Vector3[] TransformedVertices = new Vector3[ModelSpaceVertices.Length];
+
+        //Create our rotation
+        Matrix4by4 rotMatrix = new Matrix4by4(
+            new Vector3(Mathf.Cos(yawAngle), 0, -Mathf.Sin(yawAngle)),
+            new Vector3(0, 1, 0),
+            new Vector3(Mathf.Sin(yawAngle), 0, Mathf.Cos(yawAngle)),
+            Vector3.zero);
+
+        //Transform each individual vertex
+        for (int i = 0; i < TransformedVertices.Length; i++)
+        {
+            TransformedVertices[i] = rotMatrix * ModelSpaceVertices[i];
+        }
+
+        ////Create our scaling matrix(2x, y, z)
+        //Matrix4by4 scaleMatrix = new Matrix4by4(new Vector3(1, 0, 0) * 2.0f, new Vector3(0, 1, 0), new Vector3(0, 0, 1), Vector3.zero);
+
+        ////Transform each individual vertex
+        //for (int i = 0; i < TransformedVertices.Length; i++)
+        //{
+        //    TransformedVertices[i] = scaleMatrix * ModelSpaceVertices[i];
+        //}
+
+        ////Create our translation matrix
+        //Matrix4by4 translationMatrix = new Matrix4by4
+        //(
+        //    new Vector3(1, 0, 0),
+        //    new Vector3(0, 1, 0),
+        //    new Vector3(0, 0, 1),
+        //    new Vector3(position.x, position.y, position.z)
+        //);
+
+        ////Transform each individual vertex
+        //for (int i = 0; i < TransformedVertices.Length; i++)
+        //{
+        //    TransformedVertices[i] = translationMatrix * ModelSpaceVertices[i];
+        //}
+
+
+
+        MeshFilter MF = GetComponent<MeshFilter>();
+
+        MF.mesh.vertices = TransformedVertices;
+
+        MF.mesh.RecalculateNormals();
+        MF.mesh.RecalculateBounds();
+    }
+}
