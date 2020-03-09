@@ -130,3 +130,19 @@ public class AABB
 
         return rv;
     }
+    
+    public Matrix4by4 RotationInverse()
+    {
+        return new Matrix4by4(GetRow(0), GetRow(1), GetRow(2), GetRow(3));
+    }
+
+    public Matrix4by4 ScaleInverse()
+    {
+        Matrix4by4 rv = Identity;
+
+        rv.values[0, 0] = 1.0f / values[0, 0];
+        rv.values[1, 1] = 1.0f / values[1, 1];
+        rv.values[2, 2] = 1.0f / values[2, 2];
+
+        return rv;
+    }
